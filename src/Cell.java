@@ -30,7 +30,6 @@ public void updateLife(int numNear){
 	 }
  }
  
-
  }
 public boolean shouldLive(int numNear){
 	 if(state==0){

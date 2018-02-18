@@ -27,7 +27,6 @@ public int getNear(int i,int j){
 	if(cl[i-1][j-1].alive()){count++;}//up left corner
 	if(cl[i-1][j+1].alive()){count++;}//down left corner
 	return count;
-
 }
 
 

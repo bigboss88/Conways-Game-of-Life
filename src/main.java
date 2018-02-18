@@ -13,6 +13,7 @@ public class main {
 		m.getCell(10,12).resurect();
 		m.getCell(9,11).resurect();
 		m.getCell(11,11).resurect();
+		
 		System.out.println(m.getNear(3,3));
 		panel = new JPanel();
 		Dimension d= new Dimension(400,400);
