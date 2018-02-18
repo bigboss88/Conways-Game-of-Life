@@ -10,27 +10,42 @@ public void die(){
 	state=0; //Kills the cell;
 }
 
-public int getState(){
-	return state;
+public boolean alive(){
+	return state==1;
 }
 
 public void resurect(){
 	state=1; //Gives cell life
 }
 
-public void updateLife(ArrayList<Cell> neighbors){
+public void updateLife(int numNear){
+ if(state==0){
+	 if(numNear==3){
+		 this.resurect();
+	 }
+ }
+ else{
+	 if(numNear!=2 && numNear!=3){
+		 this.die();
+	 }
+ }
+ 
 
-	
-	int count = 0;
-	for(int i =0;i<neighbors.size();i++){
-		if(neighbors.get(i).getState()==1){
-			count++;
-		}
-	}
-	
-	if(count ==3){state=1;} //Reproduction case
-	else if(count>1 && count<4){state=1;}//Doesn't die case
-	else{state=0;}
+ }
+public boolean shouldLive(int numNear){
+	 if(state==0){
+		 if(numNear==3){
+			 return true;
+		 }
+		 return false;
+	 }
+	 else{
+		 if(numNear==2 || numNear==3){
+			 return true;
+		 }
+		 return false;
+	 }
+}
 }
 
-}
+

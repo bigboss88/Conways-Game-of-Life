@@ -16,33 +16,37 @@ public Map(int x,int y){
 	}
 }
 
-public ArrayList<Cell> getNear(Cell c){
-	ArrayList<Cell> neighbors = new ArrayList<Cell>();
-	for(int i =1;i<xm;i++){
-		for(int j=1;j<ym;j++){
-			if(cl[i][j]==c){
-				neighbors.add(cl[i+1][j]);//right
-				neighbors.add(cl[i-1][j]);//left
-				neighbors.add(cl[i][j+1]);//down
-				neighbors.add(cl[i][j-1]);//up
-				neighbors.add(cl[i+1][j-1]);//up right corner
-				neighbors.add(cl[i+1][j+1]);//down right corner
-				neighbors.add(cl[i-1][j+1]);//up left corner
-				neighbors.add(cl[i-1][j-1]);//down left corner
-				return neighbors;
-			}
-		}
-	}
-	neighbors.add(new Cell());
-	return neighbors;
+public int getNear(int i,int j){
+	int count =0;
+	if(cl[i+1][j].alive()){count++;}//right
+	if(cl[i-1][j].alive()){count++;}//left
+	if(cl[i][j+1].alive()){count++;}//down
+	if(cl[i][j-1].alive()){count++;}//up
+	if(cl[i+1][j-1].alive()){count++;}//up right corner
+	if(cl[i+1][j+1].alive()){count++;}//down right corner
+	if(cl[i-1][j-1].alive()){count++;}//up left corner
+	if(cl[i-1][j+1].alive()){count++;}//down left corner
+	return count;
+
 }
 
 
 public void updateMap(){
+	ArrayList<Cell> toLive = new ArrayList<Cell>();
+	ArrayList<Cell> toDie = new ArrayList<Cell>();
 	for(int i=1;i<xm;i++){
 		for(int j=1;j<ym;j++){
-			cl[i][j].updateLife(getNear(cl[i][j]));
+			if(cl[i][j].shouldLive(getNear(i,j))){
+				toLive.add(cl[i][j]);
+			}
+			else{toDie.add(cl[i][j]);}
 		}
+	}
+	for(int i=0;i<toLive.size();i++){
+		toLive.get(i).resurect();
+	}
+	for(int i=0;i<toDie.size();i++){
+		toDie.get(i).die();
 	}
 }
 public int[] getDim(){
@@ -61,10 +65,11 @@ public String toString(){
 	String out="";
 	for(int i=1;i<xm;i++){
 		for(int j =1;j<ym;j++){
-		out+=" "+cl[i][j].getState();	
+		out+=" "+cl[i][j].alive();	
 		}
 		out+="\n";
 	}
 	return out;
 }
+
 }
