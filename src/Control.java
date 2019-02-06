@@ -21,33 +21,33 @@ public class Control{
         protected void paintComponent(Graphics g){
             super.paintComponent(g);
 
-            for(int i=0;i<cells.size();i++){
-                int cellX = 10+(cells.get(i).x*10);
+            for(int i=0;i<cells.size();i++){ //for each alive cell
+                int cellX = 10+(cells.get(i).x*10); //get the x and y pos then scale them
                 int cellY = 10+(cells.get(i).y*10);
-                g.setColor(Color.ORANGE);
-                g.fillRect(cellX, cellY, 10, 10);
+                g.setColor(Color.ORANGE); // set the colour of the rectangle
+                g.fillRect(cellX, cellY, 10, 10); // draw the rectangle 
             }
 
             g.setColor(Color.BLACK);
-            g.drawRect(10, 10, 800, 500);
+            g.drawRect(10, 10, 800, 500); //Start with outer rectangle 
 
-            for (int i = 10; i <= 800; i += 10) {
+            for (int i = 10; i <= 800; i += 10) { //Draw the x lines, spaced out by 10,
                 g.drawLine(i, 10, i, 510);
             }
 
-            for (int i = 10; i <= 500; i += 10) {
+            for (int i = 10; i <= 500; i += 10) { // Y lines
                 g.drawLine(10, i, 810, i);
             }
         }
 
         public void fill(int x,int y){
-            cells.add(new Point(x,y));
+            cells.add(new Point(x,y)); //Add that point to the list of cells
             //System.out.println("Painting Cell: "+x+","+y);
-            repaint();
+            repaint(); //repaint the grid 
         }
 
         public void clear(){
-            cells.clear();
+            cells.clear(); // clears out everything in the list
         }
 
         public String toString(){
@@ -62,25 +62,26 @@ public class Control{
 
     public static void main(String[] args) throws InterruptedException {
         MapLoader load = new MapLoader("./in.txt");
-        Map map = load.read();
-        Grid grid =  new Grid(map);
+        Map map = load.read(); // load in map from file
+        Grid grid =  new Grid(map); // Create grid from the map
         JFrame window = new JFrame();
-        window.setSize(map.getY()+100, map.getY()+100);
+        //Set up window
+        window.setSize(map.getY()+150, map.getY()+150);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.add(grid);
         window.setVisible(true);
 
         while(true){
-            Thread.sleep(1000);
-            grid.clear();
+            Thread.sleep(500); // Sleep for half a second
+            grid.clear(); // clear grid so it can be refreshed
             for(int i = 0; i< map.getX();i++){
                 for(int j =0;j<map.getY();j++){
-                    if(map.getCell(i, j).alive()){
-                        grid.fill(i,j);
+                    if(map.getCell(i, j).alive()){ //Go through all cells in map and see if they are alive
+                        grid.fill(i,j); //if so draw them
                     }
                 }
             }
-            map.updateMap();
+            map.updateMap(); //update map
 
         }
     }
