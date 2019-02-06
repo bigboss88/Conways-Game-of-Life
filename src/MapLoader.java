@@ -35,7 +35,7 @@ public class MapLoader{
                 System.out.println(i+ " "+ cells.size());
                 out.getCell(cells.get(i), cells.get(i+1)).resurect();
             }
-            System.out.println(out.toString());
+            //System.out.println(out.toString());
             return out;
         } 
 

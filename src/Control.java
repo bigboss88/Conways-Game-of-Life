@@ -1,21 +1,25 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
+import java.awt.Dimension;
+
+import javax.swing.*;
+//import javax.swing.UIManager;
+//import javax.swing.UnsupportedLookAndFeelException;
 import java.util.concurrent.TimeUnit;
 
 public class Control{
     public static class Grid extends JPanel{
         private List<Point> cells;
-
+        private int xm;
+        private int ym;
         public Grid(Map map){
             cells = new ArrayList<>(map.getX() * map.getY()); // Creates the grid of squares from the map
+            xm = map.getX()*10;
+            ym = map.getY()*10;
         }
 
         protected void paintComponent(Graphics g){
@@ -29,14 +33,14 @@ public class Control{
             }
 
             g.setColor(Color.BLACK);
-            g.drawRect(10, 10, 800, 500); //Start with outer rectangle 
+            g.drawRect(10, 10, xm, ym); //Start with outer rectangle 
 
-            for (int i = 10; i <= 800; i += 10) { //Draw the x lines, spaced out by 10,
-                g.drawLine(i, 10, i, 510);
+            for (int i = 10; i <= xm; i += 10) { //Draw the x lines, spaced out by 10,
+                g.drawLine(i, 10, i, ym+10);
             }
 
-            for (int i = 10; i <= 500; i += 10) { // Y lines
-                g.drawLine(10, i, 810, i);
+            for (int i = 10; i <= ym; i += 10) { // Y lines
+                g.drawLine(10, i, xm+10, i);
             }
         }
 
@@ -61,14 +65,34 @@ public class Control{
     }
 
     public static void main(String[] args) throws InterruptedException {
+
+        //Get map and dimensions
         MapLoader load = new MapLoader("./in.txt");
         Map map = load.read(); // load in map from file
+        int x = map.getX()*10; int y = map.getY()*10;
+
+        //Set up grid
         Grid grid =  new Grid(map); // Create grid from the map
+        grid.setPreferredSize(new Dimension(x+20,y+20));
+
+        //Set up panels and components
+        JPanel panel = new JPanel();
+        JPanel buttonPanel = new JPanel();
+        panel.setLayout(new BorderLayout());
         JFrame window = new JFrame();
+        JButton start = new JButton("Start");
+        JButton stop = new JButton("Stop");
+        panel.add(grid,BorderLayout.PAGE_START);
+        buttonPanel.add(start);
+        buttonPanel.add(stop);
+        panel.add(buttonPanel,BorderLayout.WEST);
+        panel.repaint();
+
         //Set up window
-        window.setSize(map.getY()+150, map.getY()+150);
+        window.setSize(x+50,y+100);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.add(grid);
+        window.add(panel);
+        
         window.setVisible(true);
 
         while(true){
