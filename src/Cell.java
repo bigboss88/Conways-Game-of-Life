@@ -25,7 +25,7 @@ public void updateLife(int numNear){
 	 }
  }
  else{
-	 if(numNear!=2 && numNear!=3){
+	 if(numNear!=2 ||  numNear!=3){
 		 this.die();
 	 }
  }

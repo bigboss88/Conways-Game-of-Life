@@ -55,6 +55,14 @@ public int[] getDim(){
 	return out;
 }
 
+public int getX(){
+	return xm;
+}
+
+public int getY(){
+	return ym;
+}
+
 
 public Cell getCell(int x,int y){
 	return cl[x][y];
@@ -64,7 +72,9 @@ public String toString(){
 	String out="";
 	for(int i=1;i<xm;i++){
 		for(int j =1;j<ym;j++){
-		out+=" "+cl[i][j].alive();	
+			if(cl[i][j].alive())
+				out+=" *";
+			else{out+=" o";}
 		}
 		out+="\n";
 	}
