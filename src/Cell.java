@@ -2,6 +2,9 @@ import java.util.ArrayList;
 
 public class Cell {
 private int state; // This is to determine is the cell is alive or dead. 1 for alive 0 for dead
+private int prevState;
+private int x;
+private int y;
 
 public Cell(){
 	state =0; //Cell is dead when created
